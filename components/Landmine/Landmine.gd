@@ -1,12 +1,11 @@
 extends KinematicBody2D
 
-var GRAVITY = 40000
+var GRAVITY = 50000
 
 var motion = Vector2(0,0)
 var external_force = Vector2(0,0)
 var snapped = false
-
-export var deliverable_type = "1"
+var armed = false
 
 func _ready():
 	set_physics_process(true)
@@ -30,7 +29,8 @@ func unsnap():
 	reparent(get_node("/root/Game"))
 	collision_layer = 1
 	collision_mask = 1
-	
+	armed = true
+	$AnimationPlayer.play("Armed")
 	
 func _physics_process(delta):
 	if !snapped:

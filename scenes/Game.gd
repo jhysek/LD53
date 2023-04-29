@@ -1,15 +1,19 @@
 extends Node2D
 
+var target = {}
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-
-
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	Transition.openScene()
+	for receiver in $Receivers.get_children():
+		target[receiver.deliverable] = true
+		receiver.connect("received", self, "delivered")
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+
+func delivered(deliverable):
+	print("DELIVERED: ", deliverable)
+	if target.has(deliverable):
+		target.erase(deliverable)
+		
+	if target.empty():
+		print("DONE")
+		LevelSwitcher.next_level()

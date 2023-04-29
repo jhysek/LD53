@@ -72,7 +72,7 @@ func drone_control(delta):
 			if body.is_in_group("Magnetic"):
 				var dist = position.distance_to(body.position)
 				if !body.snapped and dist < 55:
-					body.snap(self)
+					body.snap($Visual)
 					snapped.append(body)
 				else:
 					body.external_force = - position.direction_to(body.position) * MAGNETIC_FORCE * 300 / position.distance_to(body.position)
@@ -83,7 +83,7 @@ func drone_control(delta):
 			if body.is_in_group("Magnetic"):
 				body.external_force = Vector2(0,0)
 		for node in snapped:
-			if node.snapped:
+			if is_instance_valid(node) and node.snapped:
 				node.unsnap()
 				node.external_force = Vector2(0,0)
 		
@@ -118,11 +118,6 @@ func drone_control(delta):
 	motion.x = (right_thrust - left_thrust) * delta * THRUST
 	motion.y = (up_thrust - down_thrust) * delta * THRUST
 	
-	game.get_node("Debug").text = "L: " + str(left_thrust) + \
-								  "  R: " + str(right_thrust) + \
-								 "  ROT: " + str(rotation_degrees) + \
-								 "   MOTION: " + str(motion)
-
 
 
 func _on_MagneticField_body_entered(body):

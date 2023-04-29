@@ -1,0 +1,107 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://components/Spider/leg0.png" type="Texture" id=1]
+[ext_resource path="res://components/Spider/head.png" type="Texture" id=2]
+[ext_resource path="res://components/Spider/leg1.png" type="Texture" id=3]
+[ext_resource path="res://components/Spider/leg2.png" type="Texture" id=4]
+
+[node name="Spider" type="Node2D"]
+
+[node name="Body" type="Sprite" parent="."]
+position = Vector2( -2, 0 )
+rotation = -0.186622
+texture = ExtResource( 2 )
+__meta__ = {
+"_edit_bone_": true,
+"_edit_ik_": true
+}
+
+[node name="Leg" type="Sprite" parent="Body"]
+position = Vector2( -322, -106 )
+rotation = -0.0479668
+texture = ExtResource( 1 )
+offset = Vector2( -179, -339 )
+__meta__ = {
+"_edit_bone_": true
+}
+
+[node name="Leg2" type="Sprite" parent="Body/Leg"]
+position = Vector2( -349, -636 )
+rotation = -0.639935
+texture = ExtResource( 3 )
+offset = Vector2( -355, -129 )
+__meta__ = {
+"_edit_bone_": true
+}
+
+[node name="Leg3" type="Sprite" parent="Body/Leg/Leg2"]
+position = Vector2( -681, -238 )
+rotation = -0.677327
+texture = ExtResource( 4 )
+offset = Vector2( -366, 113 )
+__meta__ = {
+"_edit_bone_": true
+}
+
+[node name="Leg2" type="Sprite" parent="Body"]
+position = Vector2( -125.503, 1.7444 )
+rotation = -0.484703
+scale = Vector2( 0.8, 0.8 )
+texture = ExtResource( 1 )
+offset = Vector2( -179, -339 )
+
+[node name="Leg2" type="Sprite" parent="Body/Leg2"]
+position = Vector2( -349, -636 )
+rotation = -0.30175
+scale = Vector2( 0.8, 0.8 )
+texture = ExtResource( 3 )
+offset = Vector2( -355, -129 )
+
+[node name="Leg3" type="Sprite" parent="Body/Leg2/Leg2"]
+position = Vector2( -681, -238 )
+rotation = 0.135873
+scale = Vector2( 0.8, 0.8 )
+texture = ExtResource( 4 )
+offset = Vector2( -366, 113 )
+
+[node name="Leg3" type="Sprite" parent="Body"]
+position = Vector2( 255.35, -128.064 )
+rotation = 0.862254
+scale = Vector2( -0.8, 0.8 )
+texture = ExtResource( 1 )
+offset = Vector2( -179, -339 )
+
+[node name="Leg2" type="Sprite" parent="Body/Leg3"]
+position = Vector2( -349, -636 )
+rotation = -0.30175
+scale = Vector2( 0.8, 0.8 )
+texture = ExtResource( 3 )
+offset = Vector2( -355, -129 )
+
+[node name="Leg3" type="Sprite" parent="Body/Leg3/Leg2"]
+position = Vector2( -681, -238 )
+rotation = 0.135873
+scale = Vector2( 0.8, 0.8 )
+texture = ExtResource( 4 )
+offset = Vector2( -366, 113 )
+
+[node name="Leg4" type="Sprite" parent="Body"]
+position = Vector2( 456.219, 63.6183 )
+rotation = 0.862254
+scale = Vector2( -1, 1 )
+texture = ExtResource( 1 )
+offset = Vector2( -179, -339 )
+
+[node name="Leg2" type="Sprite" parent="Body/Leg4"]
+position = Vector2( -349, -636 )
+rotation = -0.30175
+scale = Vector2( 0.8, 0.8 )
+texture = ExtResource( 3 )
+offset = Vector2( -355, -129 )
+
+[node name="Leg3" type="Sprite" parent="Body/Leg4/Leg2"]
+position = Vector2( -681, -238 )
+rotation = 0.135873
+scale = Vector2( 0.8, 0.8 )
+texture = ExtResource( 4 )
+offset = Vector2( -366, 113 )

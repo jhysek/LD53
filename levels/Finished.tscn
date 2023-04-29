@@ -1,0 +1,33 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.0941176, 0.0941176, 0.0941176, 0.54902 )
+
+[node name="Finished" type="Node2D"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+current = true
+
+[node name="Title" type="Label" parent="."]
+margin_left = -498.0
+margin_top = -309.0
+margin_right = -423.0
+margin_bottom = -295.0
+text = "FINISHED"
+
+[node name="info" type="Label" parent="."]
+margin_left = 204.0
+margin_top = 365.0
+margin_right = 577.0
+margin_bottom = 379.0
+text = "Made in 48 hours by Jiri Hysek for Ludum Dare #53 compo"
+
+[node name="Start" type="Button" parent="."]
+margin_left = -495.0
+margin_top = -205.0
+margin_right = -174.0
+margin_bottom = -118.0
+custom_styles/normal = SubResource( 1 )
+text = "Start game"
+
+[connection signal="pressed" from="Start" to="." method="_on_Start_pressed"]
