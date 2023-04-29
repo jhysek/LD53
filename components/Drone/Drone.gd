@@ -2,7 +2,7 @@ extends KinematicBody2D
 
 var GRAVITY = 1500
 var HEIGHT = 100
-var THRUST = 30
+var THRUST = 34
 var ROTATION = 100
 var DAMPING = 5
 var MAGNETIC_FORCE = 70000
@@ -19,14 +19,25 @@ var snapped = []
 
 var active = false
 var operational = false
+var magnet_flag = true
+var teleporting = false
+
+var FLYING_CONSUMPTION = 1
+var CARYING_CONSUMPTION = 0.1
+var MAGNET_CONSUMPTION = 0.5
+
+export var energy = 100
 
 onready var game = get_node("/root/Game")
+onready var magnet = $Visual/Body/Indicator
 
 func _ready():
+	$AnimationPlayer.play_backwards("TeleportOut")
 	set_physics_process(true)
 
 func _physics_process(delta):
-	drone_control(delta)
+	if energy > 0:
+		drone_control(delta)
 	
 	if is_on_floor():
 		print("FOOOOOOR")
@@ -34,16 +45,43 @@ func _physics_process(delta):
 	
 	if !active:
 		motion.y = GRAVITY * delta
+		rotation_degrees = lerp(rotation_degrees, 0, 0.1)
 	else:
 		if operational and abs(motion.x) == 0 and abs(motion.y) == 0 and $AnimationPlayer.current_animation != "Idle":
 			print("IDLE")
 			$AnimationPlayer.play("Idle")
 
+	if energy > 0:
+		consume_energy(delta)
+		
 	move_and_collide(motion)
 
+func consume_energy(delta):
+	if !active:
+		return
+		
+	var consumption = 0
+	
+	consumption += FLYING_CONSUMPTION * delta
+	if !snapped.empty():
+		consumption += CARYING_CONSUMPTION * delta
+		
+	if magnet.enabled:
+		consumption += MAGNET_CONSUMPTION * delta
+
+	energy -= consumption
+	
+	game.drone_energy(energy)
+	
+	if energy <= 0:
+		release_snap()
+		$AnimationPlayer.play_backwards("TakeOff")
+		$Timer.start()
+
 func activate():
-	active = true
-	$AnimationPlayer.play("TakeOff")
+	if energy > 0:
+		active = true
+		$AnimationPlayer.play("TakeOff")
 	
 func deactivate():
 	active = false
@@ -66,26 +104,34 @@ func drone_control(delta):
 	if !active:
 		return
 	
-	if active and Input.is_action_pressed("ui_accept"):
-		$Visual/Body/Indicator.enable()
+	if magnet_flag and snapped.empty() and Input.is_action_pressed("ui_accept"):
+		magnet.enable()
 		for body in $MagneticField.get_overlapping_bodies():
 			if body.is_in_group("Magnetic"):
 				var dist = position.distance_to(body.position)
-				if !body.snapped and dist < 55:
+				print("DIST: " + str(dist))
+				if !body.snapped and dist < 85:
 					body.snap($Visual)
 					snapped.append(body)
+					$Visual/Body/Legs.hide()
+					$Visual/Body/LegsSnap.show()
+					magnet_flag = false
 				else:
 					body.external_force = - position.direction_to(body.position) * MAGNETIC_FORCE * 300 / position.distance_to(body.position)
-				
 	else:
-		$Visual/Body/Indicator.disable()
+		magnet.disable()
 		for body in $MagneticField.get_overlapping_bodies():
 			if body.is_in_group("Magnetic"):
 				body.external_force = Vector2(0,0)
-		for node in snapped:
-			if is_instance_valid(node) and node.snapped:
-				node.unsnap()
-				node.external_force = Vector2(0,0)
+				
+	if Input.is_action_just_pressed("ui_accept"):
+		if !snapped.empty():
+			release_snap()
+		else:
+			magnet_flag = true
+		
+		$Visual/Body/Legs.show()
+		$Visual/Body/LegsSnap.hide()
 		
 	if Input.is_action_pressed("ui_down"):
 		downtoggle = true
@@ -118,13 +164,19 @@ func drone_control(delta):
 	motion.x = (right_thrust - left_thrust) * delta * THRUST
 	motion.y = (up_thrust - down_thrust) * delta * THRUST
 	
-
+func release_snap():
+	for node in snapped:
+		if is_instance_valid(node) and node.snapped:
+			node.unsnap()
+			node.external_force = Vector2(0,0)
+	snapped = []
+	$Visual/Body/Legs.show()
+	$Visual/Body/LegsSnap.hide()
 
 func _on_MagneticField_body_entered(body):
 	if body.is_in_group("Magnetic"):
 		print("New crate in reach")
 		
-	
 func _on_MagneticField_body_exited(body):
 	if body.is_in_group("Magnetic"):
 		body.external_force = Vector2(0,0)
@@ -132,3 +184,16 @@ func _on_MagneticField_body_exited(body):
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "TakeOff":
 		operational = true
+		if teleporting:
+			operational = false
+			$AnimationPlayer.play("TeleportOut")
+
+func teleportOut():
+	teleporting = true
+	$AnimationPlayer.play_backwards("TakeOff")
+
+func _on_Timer_timeout():
+	print("Timeouted...")
+	active = false
+	teleportOut()
+	game.lost()

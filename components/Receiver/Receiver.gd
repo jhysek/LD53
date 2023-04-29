@@ -3,7 +3,11 @@ extends Node2D
 signal received(deliverable_code)
 
 export var deliverable = "1"
+export var color = Color("red")
 var satisfied = false
+
+func _ready():
+	$Light2D.color = color
 
 func satisfied():
 	emit_signal("received", deliverable)

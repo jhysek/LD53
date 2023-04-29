@@ -18,17 +18,19 @@ func reparent(new_parent):
 
 func snap(to):
 	snapped = true
-	collision_layer = 8
-	collision_mask = 8
+	collision_mask = 0
 	var global_pos = global_position
 	reparent(to)
+	$CollisionShape2D.disabled = true
 	global_position = global_pos
 	
 func unsnap():
 	snapped = false
+	var global_pos = global_position
 	reparent(get_node("/root/Game"))
-	collision_layer = 1
-	collision_mask = 1
+	global_position = global_pos
+	collision_mask = 0
+	$CollisionShape2D.disabled = false
 	armed = true
 	$AnimationPlayer.play("Armed")
 	

@@ -21,8 +21,8 @@ func restart_level():
 	get_tree().reload_current_scene()
 	
 func start_level():		
-	#get_tree().change_scene(levels[current_level])
-	Transition.switchTo(levels[current_level])
+	get_tree().change_scene(levels[current_level])
+	#Transition.switchTo(levels[current_level])
 	
 func next_level():
 	current_level += 1

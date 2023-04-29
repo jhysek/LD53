@@ -7,8 +7,10 @@ var external_force = Vector2(0,0)
 var snapped = false
 
 export var deliverable_type = "1"
+export var color = Color("red")
 
 func _ready():
+	$Box/Lights.modulate = color
 	set_physics_process(true)
 
 func reparent(new_parent):
@@ -19,17 +21,21 @@ func reparent(new_parent):
 
 func snap(to):
 	snapped = true
-	collision_layer = 8
-	collision_mask = 8
+	collision_mask = 0
+	$CollisionShape2D.disabled = true
 	var global_pos = global_position
 	reparent(to)
+	show_behind_parent = true
 	global_position = global_pos
 	
 func unsnap():
 	snapped = false
+	var global_pos = global_position
 	reparent(get_node("/root/Game"))
-	collision_layer = 1
 	collision_mask = 1
+	global_position = global_pos
+	show_behind_parent = false
+	$CollisionShape2D.disabled = false
 	
 	
 func _physics_process(delta):
