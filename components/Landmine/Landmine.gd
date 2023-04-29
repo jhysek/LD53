@@ -6,6 +6,7 @@ var motion = Vector2(0,0)
 var external_force = Vector2(0,0)
 var snapped = false
 var armed = false
+var exploded = false
 
 func _ready():
 	set_physics_process(true)
@@ -33,11 +34,35 @@ func unsnap():
 	$CollisionShape2D.disabled = false
 	armed = true
 	$AnimationPlayer.play("Armed")
+	$Timer.start()
 	
 func _physics_process(delta):
+	if exploded: 
+		return
+		
 	if !snapped:
 		motion = Vector2(0, GRAVITY * delta)
 		motion += external_force * delta
 		motion = move_and_slide(motion)
 	else:
 		print('snapped...')
+
+func explode():
+	exploded = true
+	var cam = get_node("/root/Game/Drone/Camera2D")
+	cam.shake(0.3, 50, 100, true)
+	$Timer.start()
+	$AnimationPlayer.play("Explode")
+
+func secondary_explosions():
+	for explosive in $ExplosionArea.get_overlapping_bodies():
+		print("EXPLOSION TO " + str(explosive.name))
+		if explosive.is_in_group("Explosive"):
+			explosive.explode()
+		
+func _on_Timer_timeout():
+	if not exploded:
+		explode()
+	else:
+		print("FREEEE")
+		queue_free()
