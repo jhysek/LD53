@@ -1,8 +1,9 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://components/Landmine/landmine.png" type="Texture" id=1]
 [ext_resource path="res://components/Landmine/Landmine.gd" type="Script" id=2]
 [ext_resource path="res://components/Drone/shine.png" type="Texture" id=3]
+[ext_resource path="res://components/Landmine/explosion.wav" type="AudioStream" id=4]
 
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 38, 14.125 )
@@ -348,5 +349,15 @@ one_shot = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ExplosionArea"]
 shape = SubResource( 9 )
+
+[node name="Sfx" type="Node" parent="."]
+
+[node name="explosion" type="AudioStreamPlayer" parent="Sfx"]
+stream = ExtResource( 4 )
+
+[node name="explosion2" type="AudioStreamPlayer" parent="Sfx"]
+stream = ExtResource( 4 )
+
+[node name="unarmed" type="AudioStreamPlayer" parent="Sfx"]
 
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

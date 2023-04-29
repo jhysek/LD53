@@ -1,5 +1,7 @@
 extends KinematicBody2D
 
+signal exploded(at_position)
+
 var GRAVITY = 50000
 
 var motion = Vector2(0,0)
@@ -48,17 +50,25 @@ func _physics_process(delta):
 		print('snapped...')
 
 func explode():
-	exploded = true
-	var cam = get_node("/root/Game/Drone/Camera2D")
-	cam.shake(0.3, 50, 100, true)
-	$Timer.start()
-	$AnimationPlayer.play("Explode")
+	if !exploded:
+		emit_signal("exploded", global_position)
+		$Sfx/explosion.play()
+		exploded = true
+		var cam = get_node("/root/Game/Drone/Camera2D")
+		cam.shake(0.3, 50, 100, true)
+		$Timer.start()
+		$AnimationPlayer.play("Explode")
 
 func secondary_explosions():
 	for explosive in $ExplosionArea.get_overlapping_bodies():
-		print("EXPLOSION TO " + str(explosive.name))
-		if explosive.is_in_group("Explosive"):
+		
+		if explosive.is_in_group("Explosive") and \
+			explosive != self and \
+			!explosive.exploded:
 			explosive.explode()
+				
+		if explosive.is_in_group("Hittable"):
+			explosive.hit(self.position)
 		
 func _on_Timer_timeout():
 	if not exploded:

@@ -21,10 +21,12 @@ var active = false
 var operational = false
 var magnet_flag = true
 var teleporting = false
+var shield_enabled = false
 
 var FLYING_CONSUMPTION = 1
 var CARYING_CONSUMPTION = 0.1
 var MAGNET_CONSUMPTION = 0.5
+var SHIELD_CONSUMPTION = 10
 
 export var energy = 100
 
@@ -69,6 +71,9 @@ func consume_energy(delta):
 	if magnet.enabled:
 		consumption += MAGNET_CONSUMPTION * delta
 
+	if shield_enabled:
+		consumption += SHIELD_CONSUMPTION * delta
+		
 	energy -= consumption
 	
 	game.drone_energy(energy)
@@ -77,6 +82,14 @@ func consume_energy(delta):
 		release_snap()
 		$AnimationPlayer.play_backwards("TakeOff")
 		$Timer.start()
+
+func hit(from):
+	operational = false
+	shield_enabled = true
+	$AnimationPlayer.play("Shield")
+	var push = position - from
+	print("PUSH: " + str(push))
+	motion += push
 
 func activate():
 	if energy > 0:
@@ -174,6 +187,7 @@ func release_snap():
 	$Visual/Body/LegsSnap.hide()
 
 func _on_MagneticField_body_entered(body):
+	print("+ " + str(body))
 	if body.is_in_group("Magnetic"):
 		print("New crate in reach")
 		
@@ -187,7 +201,12 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 		if teleporting:
 			operational = false
 			$AnimationPlayer.play("TeleportOut")
-
+			
+	if anim_name == "Shield":
+		print("Shield disabled")
+		operational = true
+		shield_enabled = false
+		
 func teleportOut():
 	teleporting = true
 	$AnimationPlayer.play_backwards("TakeOff")
@@ -197,3 +216,6 @@ func _on_Timer_timeout():
 	active = false
 	teleportOut()
 	game.lost()
+
+func _on_MagneticField_area_entered(area):
+	print("COLLIDING AREA: " + str(area))

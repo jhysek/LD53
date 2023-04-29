@@ -43,5 +43,3 @@ func _physics_process(delta):
 		motion = Vector2(0, GRAVITY * delta)
 		motion += external_force * delta
 		motion = move_and_slide(motion)
-	else:
-		print('snapped...')
