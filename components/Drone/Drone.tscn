@@ -1,0 +1,349 @@
+[gd_scene load_steps=18 format=2]
+
+[ext_resource path="res://components/Drone/indicator.png" type="Texture" id=1]
+[ext_resource path="res://components/Drone/Drone.gd" type="Script" id=2]
+[ext_resource path="res://assets/light.png" type="Texture" id=3]
+[ext_resource path="res://components/Drone/body.png" type="Texture" id=4]
+[ext_resource path="res://components/Drone/Indicator.gd" type="Script" id=5]
+[ext_resource path="res://components/Drone/shine.png" type="Texture" id=6]
+[ext_resource path="res://components/Drone/eyes.png" type="Texture" id=7]
+[ext_resource path="res://components/Drone/legs.png" type="Texture" id=8]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 100, 38.5 )
+
+[sub_resource type="Shader" id=8]
+code = "shader_type canvas_item;
+
+uniform vec4 color1 : hint_color;
+uniform vec4 color2 : hint_color;
+uniform float threshold;
+uniform float intensity;
+uniform float opacity;
+uniform vec4 glow_color : hint_color;
+
+void fragment() {
+	// Get the pixel color from the texture
+	vec4 pixel_color = texture(TEXTURE, UV);
+	
+	// Calculate the distance between the pixel color and the first source color
+	float distance = length(pixel_color - color1);
+	
+	// Calculate the distance between the pixel color and the second source color
+	float distance_second = length(pixel_color - color2);
+	
+	// Create a new variable to store the modified glow color
+	vec4 modified_glow_color = glow_color;
+	
+	// Set the alpha value of the modified glow color to the specified opacity
+	modified_glow_color.a = opacity;
+	
+	// If the distance to either source color is below the threshold, set the output color to a blend of the pixel color and the modified glow color
+	if (distance < threshold || distance_second < threshold) {
+		COLOR = mix(pixel_color, modified_glow_color * intensity, modified_glow_color.a);
+	}
+	// Otherwise, set the output color to the pixel color
+	else {
+		COLOR = pixel_color;
+	}
+}"
+
+[sub_resource type="ShaderMaterial" id=9]
+shader = SubResource( 8 )
+shader_param/color1 = Color( 0.329412, 0.792157, 0.403922, 1 )
+shader_param/color2 = Color( 0.2, 0.937255, 1, 1 )
+shader_param/threshold = null
+shader_param/intensity = null
+shader_param/opacity = null
+shader_param/glow_color = Color( 1, 0.894118, 0.894118, 1 )
+
+[sub_resource type="Animation" id=4]
+resource_name = "BounceDown"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("Visual:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.3, 0.5 ),
+"transitions": PoolRealArray( 1, 1.1487, 2.82843, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, 20 ), Vector2( 0, -10 ), Vector2( 0, 0 ) ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "BounceUp"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("Visual:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.3, 0.5 ),
+"transitions": PoolRealArray( 1, 1.1487, 2.82843, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, -20 ), Vector2( 0, 10 ), Vector2( 0, 0 ) ]
+}
+
+[sub_resource type="Animation" id=7]
+resource_name = "Idle"
+length = 2.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Visual:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 0.707106, 1.6245 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, 10 ) ]
+}
+
+[sub_resource type="Animation" id=3]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Visual:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Visual/Body/Eyes:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Visual/Body/Eyes/LeftLight:energy")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Visual/Body/Eyes/RightLight:energy")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("CollisionShape2D:shape:extents")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 100, 38.5 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("CollisionShape2D:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 8 ) ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("Visual/Body/Legs:scale")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1.1993 ) ]
+}
+
+[sub_resource type="Animation" id=6]
+resource_name = "TakeOff"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Visual/Body/Eyes:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.2, 0.7 ),
+"transitions": PoolRealArray( 0.535887, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Visual/Body/Eyes/LeftLight:energy")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.2, 0.7 ),
+"transitions": PoolRealArray( 0.535887, 1 ),
+"update": 0,
+"values": [ 0.0, 0.5 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Visual/Body/Eyes/RightLight:energy")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.2, 0.7 ),
+"transitions": PoolRealArray( 0.535887, 1 ),
+"update": 0,
+"values": [ 0.0, 0.5 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("CollisionShape2D:shape:extents")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.2, 0.7 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 100, 43 ), Vector2( 100, 33.75 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("CollisionShape2D:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0.2, 0.7 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 8 ), Vector2( 0, 5.25 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Visual/Body/Legs:scale")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = false
+tracks/5/keys = {
+"times": PoolRealArray( 0.2, 0.7 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1.1993 ), Vector2( 1, -2 ) ]
+}
+
+[sub_resource type="CircleShape2D" id=5]
+radius = 400.0
+
+[node name="Drone" type="KinematicBody2D"]
+script = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0, 8 )
+shape = SubResource( 1 )
+
+[node name="Visual" type="Node2D" parent="."]
+scale = Vector2( 0.66, 0.66 )
+
+[node name="Body" type="Sprite" parent="Visual"]
+texture = ExtResource( 4 )
+
+[node name="Indicator" type="Sprite" parent="Visual/Body"]
+modulate = Color( 0, 0, 0, 1 )
+material = SubResource( 9 )
+position = Vector2( 0, 9.09091 )
+texture = ExtResource( 1 )
+script = ExtResource( 5 )
+
+[node name="Light2D" type="Light2D" parent="Visual/Body/Indicator"]
+show_behind_parent = true
+position = Vector2( -0.757576, 49.2424 )
+scale = Vector2( 1.51515, 6.79654 )
+enabled = false
+texture = ExtResource( 6 )
+texture_scale = 0.2
+mode = 2
+
+[node name="Eyes" type="Sprite" parent="Visual/Body"]
+modulate = Color( 1, 1, 1, 0 )
+position = Vector2( 0, 15.1515 )
+texture = ExtResource( 7 )
+
+[node name="LeftLight" type="Light2D" parent="Visual/Body/Eyes"]
+position = Vector2( -65.1515, 1.51516 )
+rotation = 0.390557
+scale = Vector2( 1, 1 )
+texture = ExtResource( 3 )
+offset = Vector2( 0, 106.061 )
+texture_scale = 0.2
+energy = 0.0
+
+[node name="RightLight" type="Light2D" parent="Visual/Body/Eyes"]
+position = Vector2( 65.1515, -1.51516 )
+rotation = -0.54043
+scale = Vector2( 1, 1 )
+texture = ExtResource( 3 )
+offset = Vector2( 0, 106.061 )
+texture_scale = 0.2
+energy = 0.0
+
+[node name="Legs" type="Sprite" parent="Visual/Body"]
+show_behind_parent = true
+position = Vector2( 0, 28.1447 )
+scale = Vector2( 1, 1.1993 )
+texture = ExtResource( 8 )
+offset = Vector2( 0, 22.7273 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/BounceDown = SubResource( 4 )
+anims/BounceUp = SubResource( 2 )
+anims/Idle = SubResource( 7 )
+anims/RESET = SubResource( 3 )
+anims/TakeOff = SubResource( 6 )
+
+[node name="MagneticField" type="Area2D" parent="."]
+position = Vector2( -1, 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MagneticField"]
+position = Vector2( 2, 0 )
+shape = SubResource( 5 )
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
+[connection signal="body_entered" from="MagneticField" to="." method="_on_MagneticField_body_entered"]
+[connection signal="body_exited" from="MagneticField" to="." method="_on_MagneticField_body_exited"]

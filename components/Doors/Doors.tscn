@@ -1,0 +1,62 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://assets/white.png" type="Texture" id=1]
+[ext_resource path="res://components/Doors/Metal.gd" type="Script" id=2]
+
+[sub_resource type="PhysicsMaterial" id=2]
+friction = 0.0
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 24, 16.5 )
+
+[sub_resource type="PhysicsMaterial" id=3]
+friction = 0.0
+
+[node name="Doors" type="Node2D"]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2( 3, -2 )
+physics_material_override = SubResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2( -14, 6.5 )
+shape = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="StaticBody2D"]
+modulate = Color( 0, 0, 0, 1 )
+position = Vector2( -14.25, 6.25 )
+scale = Vector2( 2.1087, 1.45652 )
+texture = ExtResource( 1 )
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="."]
+position = Vector2( 61, 4 )
+physics_material_override = SubResource( 3 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
+position = Vector2( -4, 0 )
+shape = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="StaticBody2D2"]
+modulate = Color( 0, 0, 0, 1 )
+position = Vector2( -4, -0.500001 )
+scale = Vector2( 2.08696, 1.43478 )
+texture = ExtResource( 1 )
+
+[node name="Metal" type="KinematicBody2D" parent="." groups=["Magnetic"]]
+position = Vector2( 22, -1 )
+script = ExtResource( 2 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Metal"]
+position = Vector2( 1, 1 )
+polygon = PoolVector2Array( -7, 131, -13, 131, -13, 135, 12, 135, 12, 131, 6, 131, 6, -12, -6, -12 )
+
+[node name="Sprite" type="Sprite" parent="Metal"]
+modulate = Color( 0.00392157, 0.00392157, 0.00392157, 1 )
+position = Vector2( 0.75, 62.05 )
+scale = Vector2( 0.543478, 6.36957 )
+texture = ExtResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="Metal/Sprite"]
+position = Vector2( 0.460001, 11.2959 )
+scale = Vector2( 1.86, 0.0273037 )
+texture = ExtResource( 1 )
