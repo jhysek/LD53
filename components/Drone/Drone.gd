@@ -142,7 +142,7 @@ func drone_control(delta):
 		for body in $MagneticField.get_overlapping_bodies():
 			if body.is_in_group("Magnetic"):
 				var dist = position.distance_to(body.position)
-				if !body.snapped and dist < 85:
+				if !body.snapped and dist < 90:
 					$Sfx/Clamp.play()
 					body.snap($Visual)
 					snapped.append(body)

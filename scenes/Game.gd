@@ -10,8 +10,10 @@ func _ready():
 	Transition.get_node("AnimationPlayer").play_backwards("Fade")
 	for receiver in $Receivers.get_children():
 		target[receiver.deliverable] = true
-	paused = true
-	$CanvasLayer/ExpressDialog.showDialog("You are hired! Welcome! You'll work as a delivery operator. \n\n This is training center for newcomers.", false, true, false)
+
+	if LevelSwitcher.current_level == 0:
+		paused = true
+		$CanvasLayer/ExpressDialog.showDialog("You are hired! You'll work as a delivery operator. You need to absolve training first.", false, true, false)
 		
 func _input(event):
 	if Input.is_action_just_pressed("ui_cancel"):
@@ -44,7 +46,7 @@ func lost():
 	$CanvasLayer/ExpressDialog.showDialog("Quotas not met. Shape up or ship out!", true, false, false)
 
 func _on_NextLevelSwitcher_timeout():
-	$CanvasLayer/ExpressDialog.showDialog("You finished the job against all expectations! Not bad!\n\n[Enter] for next delivery", false, false, true)
+	$CanvasLayer/ExpressDialog.showDialog("You finished the job against all expectations.\n\n[Enter] for next delivery", false, false, true)
 
 	
 func receiver_destroyed():

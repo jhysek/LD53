@@ -18,7 +18,7 @@
 [ext_resource path="res://assets/takeoff.wav" type="AudioStream" id=16]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 100, 38.5 )
+extents = Vector2( 100, 52.25 )
 
 [sub_resource type="Shader" id=10]
 code = "/*
@@ -235,7 +235,7 @@ tracks/4/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 100, 38.5 ) ]
+"values": [ Vector2( 100, 52.25 ) ]
 }
 tracks/5/type = "value"
 tracks/5/path = NodePath("CollisionShape2D:position")
@@ -247,7 +247,7 @@ tracks/5/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 0, 8 ) ]
+"values": [ Vector2( 0, 21.75 ) ]
 }
 tracks/6/type = "value"
 tracks/6/path = NodePath("Visual/Body/Legs:scale")
@@ -400,6 +400,30 @@ tracks/2/keys = {
 "update": 0,
 "values": [ 0.0, 0.5 ]
 }
+tracks/3/type = "value"
+tracks/3/path = NodePath("CollisionShape2D:shape:extents")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.7, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 100, 52.25 ), Vector2( 100, 43.75 ), Vector2( 100, 43.75 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("CollisionShape2D:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.7, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 21.75 ), Vector2( 0, 13.25 ), Vector2( 0, 7 ) ]
+}
 
 [sub_resource type="Animation" id=12]
 resource_name = "TeleportOut"
@@ -519,7 +543,7 @@ position = Vector2( -2, 0 )
 script = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 0, 8 )
+position = Vector2( 0, 21.75 )
 shape = SubResource( 1 )
 
 [node name="Visual" type="Node2D" parent="."]

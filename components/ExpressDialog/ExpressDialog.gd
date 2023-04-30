@@ -1,12 +1,14 @@
 extends Panel
 
 var restart = false
+var is_visible = false
 
 func _ready():
 	visible = false
 	set_process_input(true)
 	
 func showDialog(msg, buttonRestart, buttonContinue, buttonNext):
+	visible = true
 	$info.text = msg
 	$Reset.visible = buttonRestart
 	$Reset.disabled = !buttonRestart
@@ -16,28 +18,30 @@ func showDialog(msg, buttonRestart, buttonContinue, buttonNext):
 	
 	$Next.visible = buttonNext
 	$Next.disabled = !buttonNext
-	visible = true
+	is_visible = true
+	$AnimationPlayer.play("Appear")
 	
 func _on_Reset_pressed():
-	if visible:
+	if is_visible:
 		restart = true
-		$Click.play()
+		$Sfx/Click.play()
 		$Timer.start()
 
 func _on_Continue_pressed():
-	if visible:
+	if is_visible:
 		$Sfx/Click.play()
 		get_node("/root/Game").paused = false
-		hide()
+		is_visible = false
+		$AnimationPlayer.play_backwards("Appear")
 
 func _on_Next_pressed():
-	if visible:
+	if is_visible:
 		restart = false
 		$Sfx/Click.play()
 		$Timer.start()
 	
 func _input(event):
-	if !visible:
+	if !is_visible:
 		return
 		
 	if $Next.visible and Input.is_action_just_pressed("ui_accept"):

@@ -186,7 +186,9 @@ text = "Lession 1
 
 Controls
 Drone:                     arrows / WASD
-electromagnet:      Space"
+electromagnet:      [Space]
+
+start with [UP]"
 
 [node name="Label2" type="Label" parent="."]
 margin_left = -1180.0
