@@ -12,6 +12,7 @@ func vaporize():
 
 func _on_GestureAnimation_animation_finished(anim_name):
 	if anim_name == "Fire":
+		$Sfx.get_node("Yell" + str(randi() % 3 + 1)).play()
 		$GestureAnimation.play("YellingAtCloud")
 		
 	if anim_name == "YellingAtCloud":

@@ -33,10 +33,9 @@ export var energy = 100
 onready var game = get_node("/root/Game")
 onready var magnet = $Visual/Body/Indicator
 export var presentation = false
+var target_pitch = 1
 
 func _ready():
-	if !presentation:
-		$Sfx/Teleport.play()
 	$AnimationPlayer.play_backwards("TeleportOut")
 	if !presentation:
 		set_physics_process(true)
@@ -59,6 +58,7 @@ func _physics_process(delta):
 		if operational and abs(motion.x) == 0 and abs(motion.y) == 0 and $AnimationPlayer.current_animation != "Idle":
 			print("IDLE")
 			$AnimationPlayer.play("Idle")
+			#$Sfx/Fly.pitch_scale = lerp($Sfx/Fly.pitch_scale, target_pitch, 0.3)
 
 	if energy > 0:
 		consume_energy(delta)
@@ -103,6 +103,11 @@ func hit(from):
 func activate():
 	if energy > 0:
 		active = true
+		if !presentation:
+			$Sfx/TurnOn.play()
+			$Sfx/Fly.play()
+			target_pitch = 0.8
+			$Sfx/Fly.pitch_scale = 0.8
 		$AnimationPlayer.play("TakeOff")
 	
 func deactivate():
@@ -110,9 +115,12 @@ func deactivate():
 	$AnimationPlayer.play_backwards("TakeOff")
 
 func drone_control(delta):
+	var pitch = 0.8
+	
 	if Input.is_action_pressed("ui_up"):
 		if !active:
 			activate()
+		pitch = 1.1
 		uptoggle = true
 		down_thrust = lerp(down_thrust, THRUST, 0.4)
 	else:
@@ -128,11 +136,14 @@ func drone_control(delta):
 	
 	if magnet_flag and snapped.empty() and Input.is_action_pressed("ui_accept"):
 		magnet.enable()
+		if !$Sfx/Magnet.playing:
+			$Sfx/Magnet.play()
+		pitch = 1.1
 		for body in $MagneticField.get_overlapping_bodies():
 			if body.is_in_group("Magnetic"):
 				var dist = position.distance_to(body.position)
-				print("DIST: " + str(dist))
 				if !body.snapped and dist < 85:
+					$Sfx/Clamp.play()
 					body.snap($Visual)
 					snapped.append(body)
 					$Visual/Body/Legs.hide()
@@ -142,6 +153,7 @@ func drone_control(delta):
 					body.external_force = - position.direction_to(body.position) * MAGNETIC_FORCE * 300 / position.distance_to(body.position)
 	else:
 		magnet.disable()
+		$Sfx/Magnet.stop()
 		for body in $MagneticField.get_overlapping_bodies():
 			if body.is_in_group("Magnetic"):
 				body.external_force = Vector2(0,0)
@@ -166,11 +178,13 @@ func drone_control(delta):
 				$AnimationPlayer.play("BounceDown")
 	
 	if Input.is_action_pressed("ui_left"):
+		pitch = 1.1
 		left_thrust = lerp(left_thrust, THRUST, 0.2)
 	else:
 		left_thrust = lerp(left_thrust, 0, delta * DAMPING)
 		
 	if Input.is_action_pressed("ui_right"):
+		pitch = 1.1
 		right_thrust = lerp(right_thrust, THRUST, 0.2)
 	else:
 		right_thrust = lerp(right_thrust, 0, delta * DAMPING)
@@ -186,7 +200,10 @@ func drone_control(delta):
 	motion.x = (right_thrust - left_thrust) * delta * THRUST
 	motion.y = (up_thrust - down_thrust) * delta * THRUST
 	
+	$Sfx/Fly.pitch_scale = pitch
+	
 func release_snap():
+	$Sfx/Unclamp.play()
 	for node in snapped:
 		if is_instance_valid(node) and node.snapped:
 			node.unsnap()
@@ -221,6 +238,7 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 		$AnimationPlayer.play("Idle")
 		
 func teleportOut():
+	$Sfx/Fly.stop()
 	operational = false
 	teleporting = true
 	$AnimationPlayer.play_backwards("TakeOff")

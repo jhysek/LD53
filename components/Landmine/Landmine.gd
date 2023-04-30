@@ -36,6 +36,7 @@ func unsnap():
 	$CollisionShape2D.disabled = false
 	armed = true
 	$AnimationPlayer.play("Armed")
+	$Sfx/ticking.play()
 	$Timer.start()
 	
 func _physics_process(delta):
@@ -51,6 +52,7 @@ func _physics_process(delta):
 
 func explode():
 	if !exploded:
+		$Sfx/ticking.stop()
 		get_node("/root/Game").explosion_at(global_position)
 		#emit_signal("exploded", global_position)
 		$Sfx/explosion.play()

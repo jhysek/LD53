@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://components/Vogon/hand.png" type="Texture" id=1]
 [ext_resource path="res://components/Vogon/head.png" type="Texture" id=2]
@@ -9,6 +9,9 @@
 [ext_resource path="res://components/Vogon/gun.png" type="Texture" id=7]
 [ext_resource path="res://components/Vogon/DestructibleArea.gd" type="Script" id=8]
 [ext_resource path="res://assets/laserShoot.wav" type="AudioStream" id=9]
+[ext_resource path="res://assets/vogon1.wav" type="AudioStream" id=10]
+[ext_resource path="res://assets/vogon2.wav" type="AudioStream" id=11]
+[ext_resource path="res://assets/vogon3.wav" type="AudioStream" id=12]
 
 [sub_resource type="Animation" id=3]
 resource_name = "Fire"
@@ -461,9 +464,14 @@ shape = SubResource( 7 )
 [node name="Fire" type="AudioStreamPlayer" parent="Sfx"]
 stream = ExtResource( 9 )
 
-[node name="Yell" type="AudioStreamPlayer" parent="Sfx"]
+[node name="Yell1" type="AudioStreamPlayer" parent="Sfx"]
+stream = ExtResource( 10 )
 
-[node name="VogonTalk" type="AudioStreamPlayer" parent="Sfx"]
+[node name="Yell2" type="AudioStreamPlayer" parent="Sfx"]
+stream = ExtResource( 11 )
+
+[node name="Yell3" type="AudioStreamPlayer" parent="Sfx"]
+stream = ExtResource( 12 )
 
 [node name="DestructibleArea" type="Area2D" parent="." groups=["Destructible"]]
 script = ExtResource( 8 )

@@ -150,6 +150,5 @@ scale = Vector2( 0.4, 0.4 )
 
 [node name="Line0" type="AudioStreamPlayer" parent="Music"]
 stream = ExtResource( 15 )
-autoplay = true
 
 [connection signal="timeout" from="NextLevelSwitcher" to="." method="_on_NextLevelSwitcher_timeout"]

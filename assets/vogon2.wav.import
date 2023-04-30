@@ -1,0 +1,23 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/vogon2.wav-16345f7358de1a5d5f253e048b1d209e.sample"
+
+[deps]
+
+source_file="res://assets/vogon2.wav"
+dest_files=[ "res://.import/vogon2.wav-16345f7358de1a5d5f253e048b1d209e.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

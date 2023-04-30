@@ -14,7 +14,6 @@ func _physics_process(delta):
 	if fired and ! exploded:
 		time += delta
 		position += direction * delta * SPEED
-		print("DIRECTION: " + str(direction))
 		if time > 0.2 and time < 0.4:
 			direction = lerp(direction, position.direction_to(target), 0.2)
 
@@ -26,6 +25,7 @@ func fire(to, desired_target):
 
 func explode():
 	if !exploded:
+		$Sfx/Explode.play()
 		exploded = true
 		$AnimationPlayer.play("Explode")
 		
