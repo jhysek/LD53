@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-signal exploded(at_position)
+#signal exploded(at_position)
 
 var GRAVITY = 50000
 
@@ -51,7 +51,8 @@ func _physics_process(delta):
 
 func explode():
 	if !exploded:
-		emit_signal("exploded", global_position)
+		get_node("/root/Game").explosion_at(global_position)
+		#emit_signal("exploded", global_position)
 		$Sfx/explosion.play()
 		exploded = true
 		var cam = get_node("/root/Game/Drone/Camera2D")

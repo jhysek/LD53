@@ -344,5 +344,6 @@ texture = ExtResource( 9 )
 
 [node name="NextLevelSwitcher" type="Timer" parent="."]
 wait_time = 2.0
+one_shot = true
 
 [connection signal="timeout" from="NextLevelSwitcher" to="." method="_on_NextLevelSwitcher_timeout"]

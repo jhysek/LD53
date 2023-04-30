@@ -32,12 +32,17 @@ export var energy = 100
 
 onready var game = get_node("/root/Game")
 onready var magnet = $Visual/Body/Indicator
+onready var presentation = false
 
 func _ready():
 	$AnimationPlayer.play_backwards("TeleportOut")
-	set_physics_process(true)
+	if !presentation:
+		set_physics_process(true)
 
 func _physics_process(delta):
+	if presentation:
+		return
+		
 	if energy > 0:
 		drone_control(delta)
 	
@@ -207,7 +212,11 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 		operational = true
 		shield_enabled = false
 		
+	if presentation:
+		$AnimationPlayer.play("Idle")
+		
 func teleportOut():
+	operational = false
 	teleporting = true
 	$AnimationPlayer.play_backwards("TakeOff")
 

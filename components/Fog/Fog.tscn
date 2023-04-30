@@ -28,7 +28,7 @@ float rand(vec2 uv) {
 	float amplitude = starting_amplitude;
 	float frequency = starting_frequency;
 	float output = 0.0;
-	for (int i = 0; i < octaves; i++) {
+	for (int i = 0; i < 4; i++) {
 		output += texture(noise, uv * frequency).x * amplitude;
 		amplitude /= 2.0;
 		frequency *= 2.0;
@@ -52,11 +52,11 @@ noise = SubResource( 26 )
 [sub_resource type="ShaderMaterial" id=28]
 shader = SubResource( 25 )
 shader_param/octaves = 4
-shader_param/starting_amplitude = 0.318
+shader_param/starting_amplitude = 0.332
 shader_param/starting_frequency = 1.0
-shader_param/shift = -0.268
+shader_param/shift = -0.011
 shader_param/velocity = Vector2( 0, -0.05 )
-shader_param/fog_color = Color( 1, 1, 1, 1 )
+shader_param/fog_color = Color( 0, 0, 0, 1 )
 shader_param/noise = SubResource( 27 )
 
 [node name="Fog" type="ColorRect"]

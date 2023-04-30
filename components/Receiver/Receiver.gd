@@ -1,6 +1,6 @@
 extends Node2D
 
-signal received(deliverable_code)
+#signal received(deliverable_code)
 
 export var deliverable = "1"
 export var color = Color("red")
@@ -10,7 +10,9 @@ func _ready():
 	$Light2D.color = color
 
 func satisfied():
-	emit_signal("received", deliverable)
+	print("SATISFIED")
+	# emit_signal("received", deliverable)
+	get_node("/root/Game").delivered(deliverable)
 	satisfied = true
 	$Light2D.enabled = false
 	$AnimationPlayer.stop()

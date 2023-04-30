@@ -1,0 +1,15 @@
+[gd_scene format=2]
+
+[node name="Vogon" type="Node2D"]
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="Body" type="Sprite" parent="Visual"]
+
+[node name="Arm" type="Sprite" parent="Visual/Body"]
+
+[node name="Arm2" type="Sprite" parent="Visual/Body/Arm"]
+
+[node name="Legs" type="Sprite" parent="Visual/Body"]
+
+[node name="Head" type="Sprite" parent="Visual/Body"]

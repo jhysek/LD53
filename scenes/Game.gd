@@ -5,13 +5,10 @@ var target = {}
 onready var progress = $CanvasLayer/ProgressBar
 
 func _ready():
-	Transition.openScene()
+	#Transition.openScene()
+	Transition.get_node("AnimationPlayer").play_backwards("Fade")
 	for receiver in $Receivers.get_children():
 		target[receiver.deliverable] = true
-		receiver.connect("received", self, "delivered")
-	
-	for explosive in get_tree().get_nodes_in_group("Explosive"):
-		explosive.connect("exploded", self, "explosion_at")
 		
 func explosion_at(pos):
 	var tilemap = $TileMap
@@ -24,13 +21,13 @@ func explosion_at(pos):
 			tilemap.set_cellv(cell, 0)
 
 func delivered(deliverable):
-	print("DELIVERED: ", deliverable)
 	if target.has(deliverable):
 		target.erase(deliverable)
 		
+	print("TARGET: " + str(target))
+		
 	if target.empty():
 		$Drone.teleportOut()
-		print("DONE")
 		$NextLevelSwitcher.start()
 
 func drone_energy(energy):
