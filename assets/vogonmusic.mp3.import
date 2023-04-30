@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/vogonmusic.mp3-b264fabf184859b724f2e1ebec2983ec.mp3str"
+
+[deps]
+
+source_file="res://assets/vogonmusic.mp3"
+dest_files=[ "res://.import/vogonmusic.mp3-b264fabf184859b724f2e1ebec2983ec.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

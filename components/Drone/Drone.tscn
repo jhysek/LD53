@@ -637,6 +637,7 @@ margin_bottom = 391.0
 
 [node name="Fly" type="AudioStreamPlayer" parent="Sfx"]
 stream = ExtResource( 12 )
+volume_db = 2.512
 
 [node name="Shield" type="AudioStreamPlayer" parent="Sfx"]
 
