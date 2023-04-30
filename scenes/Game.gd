@@ -1,14 +1,21 @@
 extends Node2D
 
 var target = {}
+var paused = false
 
 onready var progress = $CanvasLayer/ProgressBar
 
 func _ready():
-	#Transition.openScene()
+	set_process_input(true)
 	Transition.get_node("AnimationPlayer").play_backwards("Fade")
 	for receiver in $Receivers.get_children():
 		target[receiver.deliverable] = true
+		
+		
+func _input(event):
+	if Input.is_action_just_pressed("ui_cancel"):
+		paused = true
+		$CanvasLayer/ExpressDialog.showDialog("Slacking, huh? I'm wathching you!", false, true, false)
 		
 func explosion_at(pos):
 	var tilemap = $TileMap
@@ -23,8 +30,7 @@ func explosion_at(pos):
 func delivered(deliverable):
 	if target.has(deliverable):
 		target.erase(deliverable)
-		
-	print("TARGET: " + str(target))
+
 		
 	if target.empty():
 		$Drone.teleportOut()
@@ -34,7 +40,14 @@ func drone_energy(energy):
 	progress.value = energy
 
 func lost():
-	print("GAME OVER")
+	paused = true
+	$CanvasLayer/ExpressDialog.showDialog("Quotas not met. Shape up or ship out!", true, false, false)
 
 func _on_NextLevelSwitcher_timeout():
-	LevelSwitcher.next_level()
+	$CanvasLayer/ExpressDialog.showDialog("You finished the job against all expectations! Not bad!\n\n[Enter] for next delivery", false, false, true)
+
+	
+func receiver_destroyed():
+	paused = true
+	$CanvasLayer/ExpressDialog.showDialog("You have destroyed client's receiving device\nPaying for it from your bonuses.", true, false, false)
+

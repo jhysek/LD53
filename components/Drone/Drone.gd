@@ -40,7 +40,7 @@ func _ready():
 		set_physics_process(true)
 
 func _physics_process(delta):
-	if presentation:
+	if presentation or (game and game.paused):
 		return
 		
 	if energy > 0:
@@ -81,7 +81,8 @@ func consume_energy(delta):
 		
 	energy -= consumption
 	
-	game.drone_energy(energy)
+	if game:
+		game.drone_energy(energy)
 	
 	if energy <= 0:
 		release_snap()
@@ -92,9 +93,10 @@ func hit(from):
 	operational = false
 	shield_enabled = true
 	$AnimationPlayer.play("Shield")
-	var push = position - from
-	print("PUSH: " + str(push))
-	motion += push
+	$Camera2D.shake(0.1, 50, 20)
+	#var push = position - from
+	#print("PUSH: " + str(push))
+	#motion += push
 
 func activate():
 	if energy > 0:

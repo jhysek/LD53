@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://components/Drone/indicator.png" type="Texture" id=1]
 [ext_resource path="res://components/Drone/Drone.gd" type="Script" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://components/Drone/eyes.png" type="Texture" id=7]
 [ext_resource path="res://components/Drone/legs.png" type="Texture" id=8]
 [ext_resource path="res://components/Drone/legs_snap.png" type="Texture" id=9]
+[ext_resource path="res://components/Drone/ShieldArea.gd" type="Script" id=10]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 100, 38.5 )
@@ -504,6 +505,9 @@ void fragment(){
 shader = SubResource( 14 )
 shader_param/color = Color( 1, 1, 1, 1 )
 
+[sub_resource type="CircleShape2D" id=17]
+radius = 305.007
+
 [node name="Drone" type="KinematicBody2D" groups=["Hittable"]]
 position = Vector2( -2, 0 )
 script = ExtResource( 2 )
@@ -598,6 +602,26 @@ margin_left = -388.0
 margin_top = -370.0
 margin_right = 384.0
 margin_bottom = 391.0
+
+[node name="Sfx" type="Node" parent="."]
+
+[node name="Fly" type="AudioStreamPlayer" parent="Sfx"]
+
+[node name="Shield" type="AudioStreamPlayer" parent="Sfx"]
+
+[node name="Magnet" type="AudioStreamPlayer" parent="Sfx"]
+
+[node name="Clap" type="AudioStreamPlayer" parent="Sfx"]
+
+[node name="TurnOn" type="AudioStreamPlayer" parent="Sfx"]
+
+[node name="Teleport" type="AudioStreamPlayer" parent="Sfx"]
+
+[node name="ShieldArea" type="Area2D" parent="." groups=["Hittable"]]
+script = ExtResource( 10 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ShieldArea"]
+shape = SubResource( 17 )
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="area_entered" from="MagneticField" to="." method="_on_MagneticField_area_entered"]

@@ -1,6 +1,8 @@
 extends Node2D
 
 func _ready():
+	$Drone.active = true
+	$Drone.activate()
 	Transition.openScene()
 
 func _on_Start_pressed():

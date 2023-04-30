@@ -70,6 +70,10 @@ func secondary_explosions():
 				
 		if explosive.is_in_group("Hittable"):
 			explosive.hit(self.position)
+			
+	for area in $ExplosionArea.get_overlapping_areas():
+		if area.is_in_group("Destructible"):
+			area.destroy()
 		
 func _on_Timer_timeout():
 	if not exploded:

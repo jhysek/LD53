@@ -1,13 +1,59 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://scenes/Menu.gd" type="Script" id=1]
 [ext_resource path="res://components/Drone/Drone.tscn" type="PackedScene" id=2]
+[ext_resource path="res://assets/dizzyedgeDEMO.otf" type="DynamicFontData" id=3]
+[ext_resource path="res://components/Fog/Fog.tscn" type="PackedScene" id=4]
+[ext_resource path="res://assets/cubist_noise.png" type="Texture" id=5]
+[ext_resource path="res://assets/light.png" type="Texture" id=6]
+[ext_resource path="res://components/Crate/Crate.tscn" type="PackedScene" id=7]
+[ext_resource path="res://assets/tileset.tres" type="TileSet" id=8]
+[ext_resource path="res://components/Landmine/Landmine.tscn" type="PackedScene" id=9]
+
+[sub_resource type="DynamicFont" id=2]
+size = 100
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 30
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=6]
+size = 18
+use_mipmaps = true
+use_filter = true
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 30
+font_data = ExtResource( 3 )
+
+[sub_resource type="StyleBoxFlat" id=7]
+bg_color = Color( 0, 0, 0, 1 )
+
+[sub_resource type="StyleBoxFlat" id=8]
+bg_color = Color( 0.141176, 0.141176, 0.141176, 1 )
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.0941176, 0.0941176, 0.0941176, 0.54902 )
 
+[sub_resource type="RectangleShape2D" id=5]
+extents = Vector2( 634, 11 )
+
 [node name="Menu" type="Node2D"]
 script = ExtResource( 1 )
+
+[node name="TextureRect" type="TextureRect" parent="."]
+modulate = Color( 0.572549, 0.717647, 0.780392, 1 )
+margin_left = -885.0
+margin_top = -482.0
+margin_right = 916.0
+margin_bottom = 518.0
+texture = ExtResource( 5 )
+expand = true
+stretch_mode = 2
+
+[node name="Fog" parent="TextureRect" instance=ExtResource( 4 )]
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
@@ -17,24 +63,80 @@ margin_left = -498.0
 margin_top = -309.0
 margin_right = -423.0
 margin_bottom = -295.0
-text = "GAME TITLE"
+custom_fonts/font = SubResource( 2 )
+text = "Galaxy express"
+
+[node name="subtitle" type="Label" parent="."]
+margin_left = -491.0
+margin_top = -209.0
+margin_right = -49.0
+margin_bottom = -178.0
+custom_fonts/font = SubResource( 3 )
+text = "delivering where no one else dares"
 
 [node name="info" type="Label" parent="."]
-margin_left = 204.0
-margin_top = 365.0
-margin_right = 577.0
-margin_bottom = 379.0
-text = "Made in 48 hours by Jiri Hysek for Ludum Dare #53 compo"
+modulate = Color( 1, 1, 1, 0.435294 )
+margin_left = 194.0
+margin_top = 367.0
+margin_right = 585.0
+margin_bottom = 386.0
+custom_fonts/font = SubResource( 6 )
+text = "Made in 48 hours by Jiri Hysek for Ludum Dare #53"
 
 [node name="Start" type="Button" parent="."]
-margin_left = -495.0
-margin_top = -205.0
-margin_right = -174.0
-margin_bottom = -118.0
+margin_left = -486.0
+margin_top = -80.0
+margin_right = -165.0
+margin_bottom = 7.0
+custom_fonts/font = SubResource( 4 )
+custom_styles/hover = SubResource( 7 )
+custom_styles/pressed = SubResource( 8 )
 custom_styles/normal = SubResource( 1 )
-text = "Start game"
+text = "Apply for a job"
 
 [node name="Drone" parent="." instance=ExtResource( 2 )]
 position = Vector2( 301, 57 )
+
+[node name="Crate" parent="." instance=ExtResource( 7 )]
+position = Vector2( -347, 307 )
+color = Color( 1, 0, 0.984314, 1 )
+
+[node name="Crate2" parent="." instance=ExtResource( 7 )]
+position = Vector2( -264, 308 )
+rotation = 3.14159
+color = Color( 0.172549, 0, 0.270588, 1 )
+
+[node name="Crate3" parent="." instance=ExtResource( 7 )]
+position = Vector2( -290, 230 )
+rotation = 1.5708
+color = Color( 0.0196078, 0.341176, 0.403922, 1 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2( 31, 360 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2( -17, 1 )
+shape = SubResource( 5 )
+
+[node name="Light2D" type="Light2D" parent="."]
+position = Vector2( -687, -634 )
+rotation = -0.627551
+texture = ExtResource( 6 )
+offset = Vector2( 2, 493 )
+color = Color( 0.0117647, 0.784314, 1, 1 )
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = ExtResource( 8 )
+format = 1
+tile_data = PoolIntArray( 393199, 0, 65538, 393200, 0, 65538, 393201, 0, 65538, 393202, 0, 65538, 393203, 0, 65538, 393204, 0, 65537, 393205, 0, 65536, 393206, 0, 65538, 393207, 0, 65538, 393208, 0, 65538, 393209, 0, 65538, 393210, 0, 65538, 393211, 0, 65538, 393212, 0, 65538, 393213, 0, 65538, 393214, 0, 65538, 458735, 0, 65538, 458736, 0, 65538, 458737, 0, 65538, 458738, 0, 0, 458739, 0, 0, 458740, 0, 0, 458741, 0, 0, 458742, 0, 0, 458743, 0, 0, 458744, 0, 0, 458745, 0, 0, 458746, 0, 0, 458747, 0, 0, 458748, 0, 0, 458749, 0, 0, 458750, 0, 0 )
+
+[node name="Landmine" parent="." instance=ExtResource( 9 )]
+modulate = Color( 0.521569, 0.521569, 0.521569, 1 )
+position = Vector2( -208, 285 )
+rotation = 1.39626
+
+[node name="Landmine2" parent="." instance=ExtResource( 9 )]
+modulate = Color( 0.509804, 0.509804, 0.509804, 1 )
+position = Vector2( -502, 300 )
 
 [connection signal="pressed" from="Start" to="." method="_on_Start_pressed"]
