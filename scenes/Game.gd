@@ -6,6 +6,7 @@ var paused = false
 onready var progress = $CanvasLayer/ProgressBar
 
 func _ready():
+	$CanvasLayer/ProgressBar.max_value = $Drone.energy
 	set_process_input(true)
 	Transition.get_node("AnimationPlayer").play_backwards("Fade")
 	for receiver in $Receivers.get_children():
@@ -46,9 +47,13 @@ func lost():
 	$CanvasLayer/ExpressDialog.showDialog("Quotas not met. Shape up or ship out!", true, false, false)
 
 func _on_NextLevelSwitcher_timeout():
+	paused = true
 	$CanvasLayer/ExpressDialog.showDialog("You finished the job against all expectations.\n\n[Enter] for next delivery", false, false, true)
 
-	
+func out_of_energy():
+	if !target.empty():
+		lost()
+		
 func receiver_destroyed():
 	paused = true
 	$CanvasLayer/ExpressDialog.showDialog("You have destroyed client's receiving device\nPaying for it from your bonuses.", true, false, false)

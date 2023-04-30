@@ -84,7 +84,7 @@ margin_right = 12074.0
 margin_bottom = 4813.0
 
 [node name="Drone" parent="." instance=ExtResource( 2 )]
-position = Vector2( -1084, 440 )
+position = Vector2( -1086, 502 )
 
 [node name="Camera2D" type="Camera2D" parent="Drone"]
 position = Vector2( -14, 321 )

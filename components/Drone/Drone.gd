@@ -96,9 +96,7 @@ func hit(from):
 	shield_enabled = true
 	$AnimationPlayer.play("Shield")
 	$Camera2D.shake(0.1, 50, 20)
-	#var push = position - from
-	#print("PUSH: " + str(push))
-	#motion += push
+
 
 func activate():
 	if energy > 0:
@@ -247,7 +245,7 @@ func _on_Timer_timeout():
 	print("Timeouted...")
 	active = false
 	teleportOut()
-	game.lost()
+	game.out_of_energy()
 
 func _on_MagneticField_area_entered(area):
 	print("COLLIDING AREA: " + str(area))

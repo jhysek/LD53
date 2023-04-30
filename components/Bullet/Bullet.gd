@@ -30,8 +30,10 @@ func explode():
 		$AnimationPlayer.play("Explode")
 		
 func _on_Bullet_body_entered(body):
-	if body.is_in_group("Hittable"):
-		body.hit(self.position)
+	print(body.name)
+	if body.is_in_group("Hittable") or body.name == "TileMap":
+		if body.is_in_group("Hittable"):
+			body.hit(self.position)
 		explode()
 
 func _on_FreeTimer_timeout():
