@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://components/Drone/indicator.png" type="Texture" id=1]
 [ext_resource path="res://components/Drone/Drone.gd" type="Script" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://components/Drone/legs.png" type="Texture" id=8]
 [ext_resource path="res://components/Drone/legs_snap.png" type="Texture" id=9]
 [ext_resource path="res://components/Drone/ShieldArea.gd" type="Script" id=10]
+[ext_resource path="res://assets/teleport.wav" type="AudioStream" id=11]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 100, 38.5 )
@@ -616,6 +617,9 @@ margin_bottom = 391.0
 [node name="TurnOn" type="AudioStreamPlayer" parent="Sfx"]
 
 [node name="Teleport" type="AudioStreamPlayer" parent="Sfx"]
+stream = ExtResource( 11 )
+volume_db = 4.019
+pitch_scale = 1.11
 
 [node name="ShieldArea" type="Area2D" parent="." groups=["Hittable"]]
 script = ExtResource( 10 )

@@ -31,7 +31,6 @@ func delivered(deliverable):
 	if target.has(deliverable):
 		target.erase(deliverable)
 
-		
 	if target.empty():
 		$Drone.teleportOut()
 		$NextLevelSwitcher.start()

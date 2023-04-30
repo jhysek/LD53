@@ -32,9 +32,11 @@ export var energy = 100
 
 onready var game = get_node("/root/Game")
 onready var magnet = $Visual/Body/Indicator
-onready var presentation = false
+export var presentation = false
 
 func _ready():
+	if !presentation:
+		$Sfx/Teleport.play()
 	$AnimationPlayer.play_backwards("TeleportOut")
 	if !presentation:
 		set_physics_process(true)
@@ -64,7 +66,7 @@ func _physics_process(delta):
 	move_and_collide(motion)
 
 func consume_energy(delta):
-	if !active:
+	if !active or (game and game.paused):
 		return
 		
 	var consumption = 0
@@ -208,6 +210,7 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 		if teleporting:
 			operational = false
 			$AnimationPlayer.play("TeleportOut")
+			$Sfx/Teleport.play()
 			
 	if anim_name == "Shield":
 		print("Shield disabled")

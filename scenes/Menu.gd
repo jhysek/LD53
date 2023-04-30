@@ -6,6 +6,14 @@ func _ready():
 	Transition.openScene()
 
 func _on_Start_pressed():
-	LevelSwitcher.start_level()
-	#Transition.switchTo("res://scenes/Game.tscn")
+	$Start/Click.play()
+	$Timer.start()
 
+func _on_Start_mouse_entered():
+	$Start/Hover.play()
+
+func _on_Start_mouse_exited():
+	$Start/Hover.play()
+
+func _on_Timer_timeout():
+	LevelSwitcher.start_level()
