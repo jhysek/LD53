@@ -10,17 +10,17 @@ func _ready():
 	$Light2D.color = color
 
 func satisfied():
-	print("SATISFIED")
+	$Arrow.hide()
 	# emit_signal("received", deliverable)
 	get_node("/root/Game").delivered(deliverable)
 	satisfied = true
-	$Light2D.enabled = false
-	$AnimationPlayer.stop()
+	$Delivered.play()
+	$AnimationPlayer.play("Delivered")
 
 func _on_Area2D_body_entered(body):
 	if body.is_in_group("Deliverable") and body.deliverable_type == deliverable:
 		satisfied()
-		body.queue_free()
+		body.vaporize()
 
 func destroy():
 	get_node("/root/Game").receiver_destroyed()

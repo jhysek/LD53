@@ -1,12 +1,53 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://components/Receiver/Receiver.gd" type="Script" id=1]
 [ext_resource path="res://assets/white.png" type="Texture" id=2]
 [ext_resource path="res://components/Receiver/shine.png" type="Texture" id=3]
 [ext_resource path="res://components/Receiver/Area2D.gd" type="Script" id=4]
+[ext_resource path="res://assets/delivered.wav" type="AudioStream" id=5]
+[ext_resource path="res://components/Receiver/arrow.png" type="Texture" id=6]
 
 [sub_resource type="RectangleShape2D" id=30]
 extents = Vector2( 57, 10 )
+
+[sub_resource type="Animation" id=33]
+resource_name = "Delivered"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Light2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, -220 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Light2D:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 0.4, 1 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Light2D:energy")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0.6, 1.0, 0.0 ]
+}
 
 [sub_resource type="Animation" id=31]
 length = 0.001
@@ -21,6 +62,42 @@ tracks/0/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ 1.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Light2D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, -220 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Light2D:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0.4, 1 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Arrow:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, -120 ) ]
 }
 
 [sub_resource type="Animation" id=32]
@@ -39,6 +116,18 @@ tracks/0/keys = {
 "update": 0,
 "values": [ 1.0, 0.6 ]
 }
+tracks/1/type = "value"
+tracks/1/path = NodePath("Arrow:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5, 1, 1.5 ),
+"transitions": PoolRealArray( 0.353553, 4, 0.353553, 4 ),
+"update": 0,
+"values": [ Vector2( 0, -120 ), Vector2( 0, -140 ), Vector2( 0, -120 ), Vector2( 0, -140 ) ]
+}
 
 [node name="Receiver" type="Node2D"]
 script = ExtResource( 1 )
@@ -55,13 +144,25 @@ scale = Vector2( 4.91304, 0.195652 )
 texture = ExtResource( 2 )
 
 [node name="Light2D" type="Light2D" parent="."]
+position = Vector2( 0, -220 )
+scale = Vector2( 0.4, 1 )
 texture = ExtResource( 3 )
 texture_scale = 1.5
 color = Color( 0.905882, 0, 1, 1 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "Waiting"
+anims/Delivered = SubResource( 33 )
 anims/RESET = SubResource( 31 )
 anims/Waiting = SubResource( 32 )
+
+[node name="Delivered" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 5 )
+
+[node name="Arrow" type="Sprite" parent="."]
+modulate = Color( 1, 1, 1, 0.572549 )
+position = Vector2( 0, -120 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 6 )
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]

@@ -19,6 +19,9 @@ func reparent(new_parent):
 	new_parent.add_child(self)
 	position = new_pos
 
+func vaporize():
+	$AnimationPlayer.play("Vaporize")
+		
 func snap(to):
 	snapped = true
 	collision_mask = 0
@@ -43,3 +46,8 @@ func _physics_process(delta):
 		motion = Vector2(0, GRAVITY * delta)
 		motion += external_force * delta
 		motion = move_and_slide(motion)
+
+
+func _on_AnimationPlayer_animation_finished(anim_name):
+	if anim_name == "Vaporize":
+		queue_free()

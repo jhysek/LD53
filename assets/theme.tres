@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=6 format=2]
+[gd_resource type="Theme" load_steps=7 format=2]
 
 [ext_resource path="res://assets/dizzyedgeDEMO.otf" type="DynamicFontData" id=1]
 
@@ -16,8 +16,14 @@ bg_color = Color( 0.627451, 0.972549, 1, 0.498039 )
 [sub_resource type="StyleBoxFlat" id=39]
 bg_color = Color( 0, 0, 0, 1 )
 
+[sub_resource type="DynamicFont" id=41]
+size = 40
+use_filter = true
+font_data = ExtResource( 1 )
+
 [resource]
 Button/fonts/font = SubResource( 40 )
 Button/styles/hover = SubResource( 38 )
 Button/styles/normal = SubResource( 36 )
 Button/styles/pressed = SubResource( 39 )
+Label/fonts/font = SubResource( 41 )

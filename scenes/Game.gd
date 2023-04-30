@@ -10,7 +10,8 @@ func _ready():
 	Transition.get_node("AnimationPlayer").play_backwards("Fade")
 	for receiver in $Receivers.get_children():
 		target[receiver.deliverable] = true
-		
+	paused = true
+	$CanvasLayer/ExpressDialog.showDialog("You are hired! Welcome! You'll work as a delivery operator. \n\n This is training center for newcomers.", false, true, false)
 		
 func _input(event):
 	if Input.is_action_just_pressed("ui_cancel"):
