@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://components/Crate/box.png" type="Texture" id=1]
+[ext_resource path="res://components/Crate/lights.png" type="Texture" id=2]
+[ext_resource path="res://components/DeliveryQuota/QuotaCrate.gd" type="Script" id=3]
+
+[node name="QuotaCrate" type="Sprite"]
+scale = Vector2( 0.3, 0.3 )
+texture = ExtResource( 1 )
+script = ExtResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 2 )

@@ -34,7 +34,7 @@ func snap(to):
 func unsnap():
 	snapped = false
 	var global_pos = global_position
-	reparent(get_node("/root/Game"))
+	reparent(get_node("/root/Game/Crates"))
 	collision_mask = 1
 	global_position = global_pos
 	show_behind_parent = false
@@ -47,7 +47,8 @@ func _physics_process(delta):
 		motion += external_force * delta
 		motion = move_and_slide(motion)
 
-
 func _on_AnimationPlayer_animation_finished(anim_name):
+	print("ANIUM: " + anim_name)
 	if anim_name == "Vaporize":
+		print("Vaporized....")
 		queue_free()

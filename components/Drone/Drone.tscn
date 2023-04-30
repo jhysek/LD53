@@ -538,7 +538,7 @@ shader_param/color = Color( 1, 1, 1, 1 )
 [sub_resource type="CircleShape2D" id=17]
 radius = 305.007
 
-[node name="Drone" type="KinematicBody2D" groups=["Hittable"]]
+[node name="Drone" type="KinematicBody2D" groups=["Hittable", "Player"]]
 position = Vector2( -2, 0 )
 script = ExtResource( 2 )
 

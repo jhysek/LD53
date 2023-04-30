@@ -5,6 +5,7 @@ var levels = [
 	"res://levels/Level1.tscn",
 	"res://levels/Level2.tscn",
 	"res://levels/Level3.tscn",
+	"res://levels/Level4.tscn",
 	"res://Levels/Finished.tscn",
 ]
 	
@@ -21,7 +22,9 @@ func get_current_level():
 func restart_level():
 	get_tree().reload_current_scene()
 	
-func start_level():		
+func start_level():
+	#Transition.scena = levels[current_level]
+	#Transition.get_node("AnimationPlayer").play("Fade")
 	get_tree().change_scene(levels[current_level])
 	#Transition.switchTo(levels[current_level])
 	

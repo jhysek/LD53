@@ -1,7 +1,7 @@
 extends Node2D
 
 func _ready():
-	$Drone.active = true
+	Transition.get_node("AnimationPlayer").play_backwards("Fade")
 	$Drone.activate()
 	Transition.openScene()
 

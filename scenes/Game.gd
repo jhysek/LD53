@@ -10,8 +10,12 @@ func _ready():
 	set_process_input(true)
 	Transition.get_node("AnimationPlayer").play_backwards("Fade")
 	for receiver in $Receivers.get_children():
-		target[receiver.deliverable] = true
-
+		target[receiver.deliverable] = { 
+			color = receiver.color, 
+			deliverable = receiver.deliverable 
+		}
+	$CanvasLayer/DeliveryQuota.refresh_boxes(target)
+	
 	if LevelSwitcher.current_level == 0:
 		paused = true
 		$CanvasLayer/ExpressDialog.showDialog("You are hired! You'll work as a delivery operator. You need to absolve training first.", false, true, false)
@@ -34,10 +38,13 @@ func explosion_at(pos):
 func delivered(deliverable):
 	if target.has(deliverable):
 		target.erase(deliverable)
-
+		$CanvasLayer/DeliveryQuota.refresh_boxes(target)
+	
 	if target.empty():
 		$Drone.teleportOut()
 		$NextLevelSwitcher.start()
+
+	
 
 func drone_energy(energy):
 	progress.value = energy

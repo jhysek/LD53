@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://assets/white.png" type="Texture" id=1]
 [ext_resource path="res://components/Drone/Drone.tscn" type="PackedScene" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://assets/tileset.tres" type="TileSet" id=6]
 [ext_resource path="res://components/Crate/Crate.tscn" type="PackedScene" id=7]
 [ext_resource path="res://components/Receiver/Receiver.tscn" type="PackedScene" id=8]
+[ext_resource path="res://components/Boundaries/Boundaries.tscn" type="PackedScene" id=9]
 [ext_resource path="res://components/ExpressDialog/ExpressDialog.tscn" type="PackedScene" id=10]
 [ext_resource path="res://components/EnergyBar/ProgressBar.tscn" type="PackedScene" id=11]
 [ext_resource path="res://components/Fog/Fog.tscn" type="PackedScene" id=12]
@@ -171,5 +172,8 @@ margin_bottom = 179.0
 theme = ExtResource( 3 )
 text = "Galaxy Express
 "
+
+[node name="Boundaries" parent="." instance=ExtResource( 9 )]
+position = Vector2( -828, 952 )
 
 [connection signal="timeout" from="NextLevelSwitcher" to="." method="_on_NextLevelSwitcher_timeout"]

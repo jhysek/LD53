@@ -1,8 +1,7 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://assets/dizzyedgeDEMO.otf" type="DynamicFontData" id=1]
 [ext_resource path="res://components/DeliveryQuota/DeliveryQuota.gd" type="Script" id=2]
-[ext_resource path="res://components/Crate/box.png" type="Texture" id=3]
 
 [sub_resource type="DynamicFont" id=1]
 size = 30
@@ -20,21 +19,11 @@ script = ExtResource( 2 )
 margin_right = 40.0
 margin_bottom = 14.0
 custom_fonts/font = SubResource( 1 )
-text = "Delivery plan"
+text = "to deliver"
 
 [node name="Boxes" type="Node2D" parent="."]
 
-[node name="Crate01" type="Sprite" parent="Boxes"]
-position = Vector2( 226, 13 )
-scale = Vector2( 0.3, 0.3 )
-texture = ExtResource( 3 )
+[node name="RefreshTimer" type="Timer" parent="."]
+one_shot = true
 
-[node name="Crate02" type="Sprite" parent="Boxes"]
-position = Vector2( 289, 12 )
-scale = Vector2( 0.3, 0.3 )
-texture = ExtResource( 3 )
-
-[node name="Crate03" type="Sprite" parent="Boxes"]
-position = Vector2( 355, 12 )
-scale = Vector2( 0.3, 0.3 )
-texture = ExtResource( 3 )
+[connection signal="timeout" from="RefreshTimer" to="." method="_on_RefreshTimer_timeout"]
