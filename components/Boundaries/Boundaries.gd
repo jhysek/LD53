@@ -8,6 +8,10 @@ func _on_SlackingArea_body_entered(body):
 		game.paused = true
 		dialog.showDialog("Get back to work, immediately!", false, true, false)
 
+	if body.is_in_group("Deliverable"):
+		body.vaporize()
+		game.lost_package()
+		
 func _on_KillArea_body_exited(body):
 	if body.is_in_group("Player"):
 		game.paused = true

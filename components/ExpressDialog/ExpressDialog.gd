@@ -32,7 +32,7 @@ func _on_Continue_pressed():
 		$Sfx/Click.play()
 		get_node("/root/Game").paused = false
 		is_visible = false
-		$AnimationPlayer.play_backwards("Appear")
+		$AnimationPlayer.play("Disappear")
 
 func _on_Next_pressed():
 	if is_visible:

@@ -65,3 +65,6 @@ func receiver_destroyed():
 	paused = true
 	$CanvasLayer/ExpressDialog.showDialog("You have destroyed client's receiving device\nPaying for it from your bonuses.", true, false, false)
 
+func lost_package():
+	paused = true
+	$CanvasLayer/ExpressDialog.showDialog("You have lost a package!\nUnbelievele...", true, false, false)

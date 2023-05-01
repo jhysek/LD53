@@ -502,7 +502,7 @@ tracks/5/keys = {
 }
 
 [sub_resource type="CapsuleShape2D" id=13]
-radius = 186.0
+radius = 182.0
 height = 432.0
 
 [sub_resource type="Shader" id=14]
@@ -619,6 +619,7 @@ position = Vector2( -1, 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MagneticField"]
 position = Vector2( -2, 93 )
+scale = Vector2( 1.5, 1 )
 shape = SubResource( 13 )
 
 [node name="Timer" type="Timer" parent="."]
